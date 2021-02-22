@@ -59,8 +59,62 @@ const isLeapYear = (year) => year % 400 === 0 || (year % 4 === 0 && year % 100 !
 
 //     year++;
 // }
-let s = "abcdawddefgh";
-let n = s.length;
-for (let i = n - 1; i >= 0; i--) {
-    console.log(s[i]);
+// let s = "abcdawddefgh";
+// let n = s.length;
+// for (let i = n - 1; i >= 0; i--) {
+//     console.log(s[i]);
+// }
+
+// const fizzBuzz = n => {
+//     if (n % 15 === 0) {
+//         return "FizzBuzz";
+//     } else if (n % 5 === 0) {
+//         return "Buzz";
+//     } else if (n % 3 === 0) {
+//         return "Fizz";
+//     } else {
+//         return n;
+//     }
+// }
+// let n = 100;
+// const fizzBuzz = n => (n % 3 ? "" : "Fizz") + (n % 5 ? "" : "Buzz") || n;
+
+// for (let i = 1; i < n; ++i) {
+//     console.log(fizzBuzz(i));
+// }
+// let sum = 0;
+// let n = Math.abs(-123123);
+// while (n > 0) {
+//     sum += n % 10;
+//     n = Math.trunc(n / 10);
+// }
+// console.log(sum);
+
+// 1
+// 1 2
+// 1 2 3 
+// 1 2 3 4
+// let n = 6;
+// str = "";
+// for (let i = 1; i <= n; ++i) {
+//     let str = "";
+//     for (let j = 1; j <= i; ++j) {
+//         str += j;
+
+//     }
+//     console.log(str);
+// }
+// let n = 6;
+// for (let i = 1; i <= n; i++) {
+//     let str = "";
+//     for (let j = 0; j < i; j++) {
+//         str += i;
+//     }
+//     console.log(str);
+// }
+let n = 6;
+let o = "*";
+while (o.length <= n) {
+    console.log(o);
+    o += "*";
 }
