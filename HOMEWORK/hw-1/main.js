@@ -1,13 +1,14 @@
 let apples = 0;
 let forms = ["яблок", "яблока", "яблоко"];
 
+const randomInt = (min, max) =>
+    min + Math.floor(Math.random() * (max - min));
+
 const AppleWord = word => {
 
     let letter = Math.abs(word);
     let last = letter % 10;
     let second = Math.trunc(letter / 10) % 10;
-
-    console.log(second)
     if (second === 1) {
         return forms[0];
     } else if (last === 1 && letter !== 11) {
@@ -23,19 +24,16 @@ const AppleWord = word => {
 const AppleQuantity = number => {
     if (number > 0) {
         console.log("--------")
-        console.log(number)
         console.log("Полная")
         console.log("У вас " + number + " " + AppleWord(number));
     }
     if (number === 0) {
         console.log("--------")
-        console.log(number)
         console.log("Пустая")
         console.log("У вас " + number + " " + AppleWord(number));
     }
     if (number < 0) {
         console.log("--------")
-        console.log(number)
         console.log("У вас кредит")
         console.log("У вас " + number + " " + AppleWord(number));
     }
@@ -55,3 +53,27 @@ apples -= 66;
 AppleQuantity(apples);
 apples += 359;
 AppleQuantity(apples);
+
+
+console.log("NERWRNQUWQBNRIQHBRQWRIHRIQWRHIQURHIUQHRIUQWYRHWYIUQRHBIUYWQ");
+
+let goal = 100;
+let current = 0;
+
+const Quantity = (now, after) => {
+    after = Math.abs(after);
+    if (now > 0) {
+        console.log("Вы получили " + after + " " + AppleWord(after));
+    } else if (now < 0) {
+        console.log("Вы потеряли " + after + " " + AppleWord(after));
+    } else {
+        console.log("К сожалению, сегодня без яблок");
+    }
+}
+
+while (current <= goal) {
+    let apple = randomInt(-5, 10);
+    current = current + apple;
+    Quantity(apple, current);
+}
+console.log("Вы достигли своей цели");
