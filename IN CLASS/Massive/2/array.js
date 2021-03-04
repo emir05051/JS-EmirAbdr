@@ -179,7 +179,6 @@ const getMissing3 = numbers => {
 const randomInt = (min, max) =>
     min + Math.floor(Math.random() * (max - min));
 
-
 const createRandomArray = (min, max, length) => {
     let arr = [];
     for (let i = 0; i < length; i++) {
