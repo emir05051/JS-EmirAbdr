@@ -36,7 +36,7 @@ const sum = array => array.reduce((sum, number) => sum + number, 0);
 const average = array => sum(array) / array.length;
 
 const areAllPositive = array =>
-    array.every(n => n > 0);
+    array.every(n => n >= 0);
 
 const map = array => array.map(n => n > 0 ? "Дохож" : "Расход")
 
@@ -57,3 +57,8 @@ console.log("Отрицательные " + filterNegative(apples));
 console.log("Положительные " + filterPositive(apples));
 
 console.log(map(apples));
+
+
+console.log(apples.sort(function(a, b) {
+    return a - b;
+}));
