@@ -38,7 +38,7 @@ const average = array => sum(array) / array.length;
 const areAllPositive = array =>
     array.every(n => n >= 0);
 
-const map = array => array.map(n => n > 0 ? "Дохож" : "Расход")
+const map = array => array.map(n => n > 0 ? "Дохож " : "Расход ")
 
 console.log(apples);
 
