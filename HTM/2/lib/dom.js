@@ -1,11 +1,4 @@
-/**
- * 
- * @param {*} tag 
- * @param {*} attributes 
- * @param  {...any} children 
- * @returns {HTMLElement}
- */
-const e = (tag, attributes = {}, ...children) => {
+const $ = (tag, attributes = {}, ...children) => {
     const element = document.createElement(tag);
 
     Object.entries(attributes)
@@ -14,6 +7,8 @@ const e = (tag, attributes = {}, ...children) => {
                 Object.entries(value).forEach(([cssKey, cssValue]) => {
                     element.style[cssKey] = cssValue;
                 });
+            } else if (key.startsWith("on")) { // Строка начинается с "on" 
+                element.addEventListener(key.slice(2), value);
             } else {
                 element[key] = value;
             }
@@ -24,6 +19,3 @@ const e = (tag, attributes = {}, ...children) => {
 
     return element;
 }
-
-const createArray = (mapFunction = index => index) => length =>
-    Array.from({ length }, (_, index) => mapFunction(index));

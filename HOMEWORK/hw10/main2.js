@@ -50,7 +50,7 @@ const nNoun = (form1, form2, form3) => {
 }
 const log = {
     boxState: box => {
-        console.log("В ящике " + box.getQuantityString(box.amount));
+        console.log("В ящике " + box.amount);
 
         if (box.amount > 0) {
             console.log("Полная коробка");
@@ -65,9 +65,9 @@ const log = {
 
         console.log("----------");
         if (amount >= 0) {
-            console.log("Получили " + box.getQuantityString(amount));
+            console.log("Получили " + box.amount);
         } else {
-            console.log("Потеряли " + box.getQuantityString(Math.abs(amount)));
+            console.log("Потеряли " + Math.abs(box.amount));
         }
     },
 
@@ -75,9 +75,9 @@ const log = {
 
         console.log("----------");
         if (box.amount >= goal) {
-            console.log("Ура мы накопили " + box.getQuantityString(box.amount) + "!");
+            console.log("Ура мы накопили " + box.amount + "!");
         } else {
-            console.log("Не повезло, не фартануло. Мы накопили только " + box.getQuantityString(box.amount) + " =(");
+            console.log("Не повезло, не фартануло. Мы накопили только " + box.amount + " =(");
         }
     },
 
@@ -103,9 +103,6 @@ const log = {
 
 class Box {
     amount = 0;
-
-
-
     changeAmount(transaction) {
         this.amount += transaction;
     }
@@ -119,9 +116,8 @@ let amounts = createRandomArray(-10, 20)(30);
 
 let goal = 100;
 
-let box = new Box(["яблоко", "яблока", "яблок"]);
+let box = new Box;
 
-console.log(box);
 log.boxState(box);
 
 let transactions = [];
