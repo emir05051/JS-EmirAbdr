@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+    /* grid-template-columns: ; */
+    /* grid-template-rows: ; */
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+.card {
+    position: relative;
+}
+
+.card__face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backface-visibility: hidden;
+    transition: transform .5s;
+}
+
+.card__front {
+    background-color: aqua;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__back {
+    background-color: cornflowerblue;
+}
+
+.card_open .card__back {
+    transform: rotateY(180deg);
+}
+
+.card_closed .card__front {
+    transform: rotateY(180deg);
+}
