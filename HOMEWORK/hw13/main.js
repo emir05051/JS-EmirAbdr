@@ -1,164 +1,97 @@
-// 3. В продолжение яблок
-// 3.1 Первратить ящик Box в полноценный объект с конструктором и прототипом
+// Переменные как переменные 
+// Функции - процедуры
+// Объекты - данные (POJO), Модули - набор функционала (префикс), 
 
-// 3.2 Добавить метод getQuantityString на основании nWord 
+// username - обязательное, не меньше 5 символов
+// passwrods - обязательное, не меньше 8 символов, (содержит символ !) (содержит большую букву и цифру)
+// age - число, целое, (0, 150)
 
-// Первый вариант
-// const appleBox = new Box(["яблоко", "яблока", "яблок"]);
-
-// Второй вариант
-// const appleBox = new Box(nWord((["яблоко", "яблока", "яблок"]));
-
-// appleBox.getQuantityString(10) // 10 яблок
-
-
-// ....
-// const pearBox = new Box(["груша", "груши", "груш"]);
-
-const randomInt = (min, max) =>
-    min + Math.floor(Math.random() * (max - min));
-
-const createArray = (mapFunction = index => index) => length =>
-    Array.from({ length }, (_, index) => mapFunction(index));
-
-const createRandomArray = (min, max) =>
-    createArray(() => randomInt(min, max));
-
-
-const analitics = {
-    getPositives: numbers => numbers.filter(n => n > 0),
-    getNegatives: numbers => numbers.filter(n => n < 0),
-
-    getSum: numbers =>
-        numbers.reduce((sum, number) => sum + number, 0),
-
-    getAverage: numbers => analitics.getSum(numbers) / numbers.length,
-
-    areAllPositive: numbers => numbers.every(n => n > 0),
-
-    getAllDivisible: (divisor, numbers) => numbers.filter(n => n % divisor === 0)
+let validForm = {
+    username: "anton",
+    password: "anton!anton",
+    age: "20",
+    height: "150",
 };
 
+let invalidForm = {
+    username: "anto",
+    password: "anto",
+    age: "20a",
+    height: "1das",
+};
 
-const nNoun = (form1, form2, form3) => {
-    return (n) => {
+// const maxUsernameLength = 5;
 
-        let absN = Math.abs(n);
+const handleSubmit = (form) => {
+    // const username = form.username;
+    // ..
+    const { username, password, age, height } = form;
 
-        // 123456
-        let lastDigt = absN % 10; // 6
-        let secondToLastDigits = Math.trunc(absN / 10) % 10; // 12345 % 10 = 5 
+    let isValid = true;
+    let errors = {};
 
-        let word;
-        if (secondToLastDigits === 1) {
-            word = form3;
-        } else {
-            if (lastDigt === 1) {
-                word = form1;
-            } else if (2 <= lastDigt && lastDigt <= 4) {
-                word = form2;
-            } else {
-                word = form3;
-            }
-        }
 
-        return n + " " + word;
+
+    if (username.length < 5) {
+        errors["username"] = "Логин должен быть не меньше 5 символов";
+        isValid = false;
+    }
+
+    if (password.length < 10) {
+        errors["password"] = "Пароль должен быть не меньше 8 символов";
+        isValid = false;
+    }
+
+    if (password.indexOf("!") < 0) {
+        errors["password"] = "Пароль должен содержать '!'";
+        isValid = false;
+    }
+
+    let ageNumber = parseInt(age);
+    // "20" !== "20.1"
+    let heightNumber = parseInt(height);
+
+    if (isNaN(ageNumber) || age !== String(ageNumber)) {
+        errors["age"] = "Возраст должен быть числом";
+        isValid = false;
+    }
+
+    if (age < 0 || age > 150) {
+        errors["age"] = "Возраст должен быть в промежутке от 0 до 150 лет";
+        isValid = false;
+    }
+
+    if (height === '') {
+
+        isValid = true;
+
+    } else if (isNaN(heightNumber) || height !== String(heightNumber)) {
+        errors["height"] = "Рост должен быть числом";
+        isValid = false;
+    }
+    if (height < 0 || height > 300) {
+        errors["height"] = "Рост должен быть в промежутке от 0 до 300";
+        isValid = false;
+    }
+    if (isValid) {
+        // отправить форму 
+        const user = {
+            username,
+            password,
+            age,
+            height,
+            dateOfRegistration: new Date(),
+        };
+
+        console.log("Создаем пользователя", user);
+    } else {
+        // отображаем ошибки в форме
+        console.log("Форма заполнена с ошибками", errors, form);
     }
 }
 
-// const nApples = nNoun("яблоко", "яблока", "яблок");
+/// 
 
-const log = {
-    boxState: box => {
-        console.log("В ящике " + box.getQuantityString(box.amount));
-
-        if (box.amount > 0) {
-            console.log("Полная коробка");
-        } else if (box.amount === 0) {
-            console.log("Пустая коробка");
-        } else { // box < 0
-            console.log("Кредитная коробка");
-        }
-    },
-
-    transaction: (box, amount) => {
-
-        console.log("----------");
-        if (amount >= 0) {
-            console.log("Получили " + box.getQuantityString(amount));
-        } else {
-            console.log("Потеряли " + box.getQuantityString(Math.abs(amount)));
-        }
-    },
-
-    result: (box, goal) => {
-
-        console.log("----------");
-        if (box.amount >= goal) {
-            console.log("Ура мы накопили " + box.getQuantityString(box.amount) + "!");
-        } else {
-            console.log("Не повезло, не фартануло. Мы накопили только " + box.getQuantityString(box.amount) + " =(");
-        }
-    },
-
-    statistics: transactions => {
-        let gains = analitics.getPositives(transactions);
-        let loses = analitics.getNegatives(transactions);
-
-        console.log("Суммарный доход: " + analitics.getSum(gains));
-        console.log("Суммарный расход: " + analitics.getSum(loses));
-
-        console.log("Средний доход: " + analitics.getAverage(gains));
-        console.log("Средний расход: " + analitics.getAverage(loses));
-
-        if (analitics.areAllPositive(transactions)) {
-            console.log("Все транзакции были положительными!");
-        }
-
-        console.log(transactions.map(transaction => transaction >= 0 ? "Доход" : "Расход"));
-
-        console.log("Круглые транзакции", analitics.getAllDivisible(5, transactions));
-    },
-}
-
-class Box {
-    amount;
-
-    constructor(forms, amount = 0) {
-        this.amount = amount;
-        this.getQuantityString = nNoun(...forms);
-    }
-
-    changeAmount(transaction) {
-        this.amount += transaction;
-    }
-
-}
-
-
-
-// ---- 
-let amounts = createRandomArray(-10, 20)(30);
-
-let goal = 100;
-
-let box = new Box(["яблоко", "яблока", "яблок"]);
-
-
-console.log(box);
-log.boxState(box);
-
-let transactions = [];
-
-while (box.amount < goal && amounts.length > 0) {
-    let amount = amounts.shift();
-    box.changeAmount(amount);
-
-    transactions.push(amount);
-
-    log.transaction(box, amount);
-    log.boxState(box);
-}
-
-log.result(box, goal);
-log.statistics(transactions);
+handleSubmit(validForm);
+console.log("-----");
+handleSubmit(invalidForm);
