@@ -41,6 +41,10 @@
   // ValidationState -> required -> length(8) -> hasChar(ExclamationMark) -> ValidationState
   // ValidationState -> required -> isNumber() -> isInRange(0, 150) -> ValidationState
 
+  const isANumber = (state) => {
+      return isNaN(state) ? state : withError(state, "Не число");
+  }
+
   const required = (state) => {
       if (!state.isValid) {
           return state;
@@ -57,13 +61,20 @@
       return state.result.length >= minLength ? state : withError(state, "Длина должна быть не меньше " + minLength);
   }
 
+  //   const contains = (char) => (state) => {
+  //       if (!state.isValid) {
+  //           return state;
+  //       }
+  //       return state.includes(char) ? state : withError(state, "Символ не соержится ");
+  //   }
+
   const validate = (...validators) => (initialState) =>
       validators.reduce((state, validator) => validator(state), initialState);
 
-
   let UserFormValidation = {
       username: validate(required, length(5)),
-      password: validate(required, length(8), contains("!")),
+      password: validate(required, length(8)),
+      age: validate(isANumber),
       // age: (state) => state,
       // age: validateAge,
       // height: validateHeight,
@@ -108,7 +119,7 @@
   const createUser = ({
       username,
       password,
-      age
+      age,
   }) => ({
       username,
       password,
