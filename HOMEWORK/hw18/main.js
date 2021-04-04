@@ -1,20 +1,3 @@
-// 3. В продолжение яблок
-// 3.1 Первратить ящик Box в полноценный объект с конструктором и прототипом
-
-// 3.2 Добавить метод getQuantityString на основании nWord 
-
-// Первый вариант
-// const appleBox = new Box(["яблоко", "яблока", "яблок"]);
-
-// Второй вариант
-// const appleBox = new Box(nWord((["яблоко", "яблока", "яблок"]));
-
-// appleBox.getQuantityString(10) // 10 яблок
-
-
-// ....
-// const pearBox = new Box(["груша", "груши", "груш"]);
-
 const randomInt = (min, max) =>
     min + Math.floor(Math.random() * (max - min));
 
@@ -24,6 +7,28 @@ const createArray = (mapFunction = index => index) => length =>
 const createRandomArray = (min, max) =>
     createArray(() => randomInt(min, max));
 
+// ---
+const $ = (tag, attributes = {}, ...children) => {
+    const element = document.createElement(tag);
+
+    Object.entries(attributes)
+        .forEach(([key, value]) => {
+            if (key === "style") {
+                Object.entries(value).forEach(([cssKey, cssValue]) => {
+                    element.style[cssKey] = cssValue;
+                });
+            } else if (key.startsWith("on")) { // Строка начинается с "on" 
+                element.addEventListener(key.slice(2), value);
+            } else {
+                element[key] = value;
+            }
+
+        });
+
+    element.append(...children);
+
+    return element;
+}
 
 const analitics = {
     getPositives: numbers => numbers.filter(n => n > 0),
@@ -38,35 +43,6 @@ const analitics = {
 
     getAllDivisible: (divisor, numbers) => numbers.filter(n => n % divisor === 0)
 };
-
-
-const nNoun = (form1, form2, form3) => {
-    return (n) => {
-
-        let absN = Math.abs(n);
-
-        // 123456
-        let lastDigt = absN % 10; // 6
-        let secondToLastDigits = Math.trunc(absN / 10) % 10; // 12345 % 10 = 5 
-
-        let word;
-        if (secondToLastDigits === 1) {
-            word = form3;
-        } else {
-            if (lastDigt === 1) {
-                word = form1;
-            } else if (2 <= lastDigt && lastDigt <= 4) {
-                word = form2;
-            } else {
-                word = form3;
-            }
-        }
-
-        return n + " " + word;
-    }
-}
-
-// const nApples = nNoun("яблоко", "яблока", "яблок");
 
 const log = {
     boxState: box => {
@@ -124,41 +100,79 @@ const log = {
 class Box {
     amount;
 
-    constructor(forms, amount = 0) {
+    listeners = {
+        "amountChanged": [] // (amount, transaction, box) => void;
+    };
+
+    constructor(amount = 0) {
         this.amount = amount;
-        this.getQuantityString = nNoun(...forms);
+    }
+
+    addEventListener(eventName, handler) {
+        this.listeners[eventName].push(handler);
     }
 
     changeAmount(transaction) {
         this.amount += transaction;
+
+        // Оповещаем подписчиков, сообщаем транзакцию и новое состояник коробки, и коробку
+        this.listeners["amountChanged"]
+            .forEach(handler => handler(this.amount, transaction, this));
     }
-
 }
-
-
-
 // ---- 
 let amounts = createRandomArray(-10, 20)(30);
 
 let goal = 100;
 
-let box = new Box(["яблоко", "яблока", "яблок"]);
-
-
-console.log(box);
-log.boxState(box);
+let box = new Box();
 
 let transactions = [];
 
-while (box.amount < goal && amounts.length > 0) {
-    let amount = amounts.shift();
-    box.changeAmount(amount);
+box.addEventListener("amountChanged", (transaction) => {
+    console.log("Новая транзакция: ", transaction);
+});
 
+box.addEventListener("amountChanged", (amount) => {
+    console.log("Новое состояние коробки: ", amount);
+});
+
+box.addEventListener("amountChanged", (amount) => {
     transactions.push(amount);
+});
 
-    log.transaction(box, amount);
-    log.boxState(box);
-}
+box.addEventListener("amountChanged", () => {
+    console.log("----");
+});
+let i = "0";
 
-log.result(box, goal);
-log.statistics(transactions);
+
+box.addEventListener("amountChanged", () => {
+    const a = ($("ul", { className: "ul", }, $("li", {
+        className: i++ + " li",
+    }, transactions)))
+
+    document.body.append(a)
+});
+
+
+// let box = new Box(["груша", "груши", "груш"]);
+
+console.log(box);
+// log.boxState(box);
+
+
+window.addEventListener("load", () => {
+    while (box.amount < goal && amounts.length > 0) {
+        let amount = amounts.shift();
+        box.changeAmount(amount);
+
+        // log.transaction(box, amount);
+        // log.boxState(box);
+    }
+
+
+    log.statistics(transactions);
+    // log.result(box, goal);
+    // log.statistics(transactions);
+});
