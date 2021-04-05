@@ -40,6 +40,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             }
         }
     });
+
     const intervalId = setInterval(() => {
         div_2.classList.add("red");
     }, 100);

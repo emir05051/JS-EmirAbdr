@@ -159,10 +159,23 @@ console.log(box);
 // log.boxState(box);
 
 
+
 window.addEventListener("load", () => {
     let amounts = createRandomArray(-10, 20)(30);
     let goal = 100;
 
+    const f = $("i", {
+        className: "fas fa-play",
+        onclick: () => {
+            if (f.classList.contains("fa-play")) {
+                f.classList.remove("fa-play");
+                f.classList.add("fa-pause");
+            } else {
+                f.classList.remove("fa-pause");
+                f.classList.add("fa-play");
+            }
+        }
+    });
     const button = $("div", {
         className: "button",
         onclick: () => {
@@ -171,11 +184,12 @@ window.addEventListener("load", () => {
 
             if (box.amount > goal) {
                 document.body.removeChild(button)
+                document.body.append(($("div", { className: "stat", }, "Посмотрите в консоль")))
                 log.statistics(transactions);
             }
 
         }
-    }, )
+    }, f)
 
     document.body.append(button)
 
