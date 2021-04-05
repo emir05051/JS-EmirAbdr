@@ -148,13 +148,14 @@ let i = "0";
 
 
 box.addEventListener("amountChanged", () => {
-    const a = ($("ul", { className: "ul", }, $("li", {
-        className: i++ + " li",
-    }, transactions)))
+    const li = $("li", { className: i++ + " li", }, transactions.join("  "))
+    const a = ($("ul", { className: "ul", }, li))
 
-    document.body.append(a)
+    const div = ($("div", { className: "div", }, a))
+
+    document.body.append(div)
+
 });
-
 
 // let box = new Box(["груша", "груши", "груш"]);
 
@@ -170,7 +171,6 @@ window.addEventListener("load", () => {
         // log.transaction(box, amount);
         // log.boxState(box);
     }
-
 
     log.statistics(transactions);
     // log.result(box, goal);
