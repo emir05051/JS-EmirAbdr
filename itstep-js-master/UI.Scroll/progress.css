@@ -36,6 +36,10 @@ body {
   z-index: 1;
 }
 
+.progress-bar__checkpoint_active {
+  background-color: red;
+}
+
 
 h1 {
   margin: 0;

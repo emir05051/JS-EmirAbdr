@@ -1,38 +1,3 @@
-// debounce
-// "накапливаем события" пока они не перестанут проиходить в течении N ms
-const debounce = func => delay => {
-  let timerId = null;
-
-  return (...args) => {
-    if (timerId === null) {
-      func(...args);
-    }
-
-    clearTimeout(timerId);
-    timerId = setTimeout(() => {
-      func(...args)
-      timerId = null;
-    }, delay);
-  }
-}
-
-
-// throttle
-// Выполнять обработчик не чаще чем раз в N ms
-const throttle = func => delay => {
-  let timerId = null;
-
-  return (...args) => {
-    if (timerId === null) {
-      func(...args);
-      timerId = setTimeout(() => {
-        func(...args);
-        timerId = null;
-      }, delay);
-    }
-  };
-}
-
 
 const mock = () => {
   let sections = createArray(index => [
@@ -66,7 +31,15 @@ window.addEventListener("load", () => {
         className: "progress-bar__checkpoint",
         style: {
           left: (position * 100 / documentHeight) + "%"
-        } 
+        },
+        onclick: () => {
+          // window.scrollBy - прокручивает НА Y пикселей от текущей позиции скорла 
+          window.scrollTo({
+            left: 0,
+            top: position,
+            behavior: "smooth"
+          });
+        }
       })
   );
 
@@ -88,6 +61,22 @@ window.addEventListener("load", () => {
 
 
   const throttledHandler = throttle(() => {
+    
+    let lastIndex = headerPositions.findIndex(position => window.scrollY < position);
+    if (lastIndex < 0) {
+      lastIndex = checkpoints.length;
+    }
+
+
+    checkpoints.forEach((checkpoint, index) => {
+      if (index < lastIndex) {
+        checkpoint.classList.add("progress-bar__checkpoint_active");
+      } else {
+        checkpoint.classList.remove("progress-bar__checkpoint_active");
+      }
+    })
+
+
     console.log(window.scrollY, document.body.offsetHeight - window.innerHeight);
 
     progressBar.style.width = (window.scrollY * 100 / (document.body.offsetHeight - window.innerHeight)) + "%";

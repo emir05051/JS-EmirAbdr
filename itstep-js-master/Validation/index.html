@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .field {
+      display: block;
+      padding: 20px;
+    }
+
+    .errors {
+      color: red;
+    }
+    
+  </style>
+  <script src="../lib/list.js"></script>
+  <script src="../lib/dom.js"></script>
+  <script src="validation.js"></script>
+  <script src="main.js"></script>
+</head>
+<body>
+
+  <form name="test" novalidate  autocomplete="off">
+    <input type="text" name="name" data-label="Имя"/>
+    <input type="date" name="dateOfBirth" data-label="Дата рождения"/>
+    <input type="number" name="height" data-label="Рост"/>
+    <textarea name="about" data-label="О себе"></textarea>
+    <select name="favorite" data-label="Любимя опция">
+      <option>---</option>
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+    </select>
+    <!-- <input type="text" name="name"/> -->
+    <input type="file" name="resume" data-label="Резюме"/> 
+    <input type="checkbox" name="iAgree" data-label="Согласен с условиями"/> 
+    <button type="submit">Отправить</button>
+  </form>
+  
+</body>
+</html>
