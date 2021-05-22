@@ -20,12 +20,15 @@ const generateTimersList = (n, m) => createArray(() => null) (n * m);
 const width = 150;
 const height = 200;
 
-// const images = [
-//   "images/1.jpg",
-//   "images/2.jpg",
-//   "images/1.jpg",
-  
-// ];
+const images = [
+  "images/1.jpg",
+  "images/2.jpg",
+  "images/3.jpg",
+  "images/4.jpg",
+  "images/5.jpg",
+  "images/6.jpg",
+  "images/7.jpg",
+];
 
 
 const createGame = (gameDiv, timerDiv, gameOverCallback, n, m) => {
@@ -54,8 +57,20 @@ const createGame = (gameDiv, timerDiv, gameOverCallback, n, m) => {
       },
       onclick:  handleClick, // addEventListener("click", () => ...)
     }, 
-      $("div", { className: "card__face card__front"}, 
-        $("img", { src: images[value] })
+      $("div", { 
+        className: "card__face card__front",
+        style:{
+          "backface-visibility": "hidden"
+        }
+    }, 
+        $("img", {
+          src: images[value],
+          style:{
+            width: 150 + "px",
+            height: 200 + "px",
+
+          }
+        })
       ),
       $("div", { className: "card__face card__back"}),
     );
