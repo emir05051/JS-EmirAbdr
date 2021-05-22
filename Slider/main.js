@@ -128,7 +128,6 @@ window.addEventListener("load", () => {
 
   });
 
-
   sliderContainer.addEventListener("keydown", (event) => {
     // console.log("keyup", event);
 
@@ -147,6 +146,14 @@ window.addEventListener("load", () => {
 
   });
 
+  sliderContainer.addEventListener("wheel", (event) => {
+    if(event.deltaY === -100){
+      slider.prevSlide();
+    }
+    else if(event.deltaY === 100) {
+      slider.nextSlide();
+    }
+  });
   // window.addEventListener("keypress", (event) => {
   //   console.log("keypress", event);
   // });
