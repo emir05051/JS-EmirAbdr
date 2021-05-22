@@ -34,7 +34,7 @@ window.addEventListener("load", () => {
   })
   
   wrap.append(ol)
-  document.body.children  [0].append(wrap)
+  document.body.append(wrap)
   
   
   
