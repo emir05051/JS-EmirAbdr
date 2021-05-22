@@ -212,16 +212,26 @@ window.addEventListener("load", () => {
 // const images = [
 //   "images/img1.jpg"
 // ];
-
+let index = 0;
 const createSlide = (index) => {
   return $("div", { 
       className: "slide__content", 
       style: {
-        width: 550 + "px",
+        width: "fit-content",
         height: 500 + "px",
         
       }
     }, 
-    "<img src=10.jpg>"
+    $(
+      "img",
+    {
+      src: index++ + ".jpg",
+      style: {
+        height:100 + "%"
+      }
+    },
+    
+    )
+    
   );
 }

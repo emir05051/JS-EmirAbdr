@@ -26,12 +26,19 @@ body {
   height: 40px;
   margin: 20px;
   background-color: aquamarine;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
 }
 
 .slider {
   /* padding: 20px;
   border: 20px solid red;
   margin: 40px; */
+  width: 100%;
+  height: 80%;
+  min-width: max-content;
 }
 
 .slider__container {
@@ -59,7 +66,6 @@ body {
 
 .slider__slide {
   padding: 20px;
-
 }
 
 .slide__content {
