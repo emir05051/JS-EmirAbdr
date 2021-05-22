@@ -21,14 +21,12 @@ const hasPerviousGame = false;
 //   const M = mSize.value;
 // })
 
-const createUi = () => {
+const createUi = (n, m) => {
   const home = document.getElementById("home");
   const gameContainer = document.getElementById("game");
   const buttonStart = document.getElementById("button-start");
-  const buttonGrid32 = document.getElementById("32");
-  const buttonGrid34 = document.getElementById("34");
-  const buttonGrid44 = document.getElementById("44");
-
+  const N = n;
+  const M = m;
   const gameTimer = document.getElementById("game-timer");
 
   const gameState = document.getElementById("game-state");
@@ -50,7 +48,7 @@ const createUi = () => {
       buttonPause.removeEventListener("click", togglePause);
 
       console.log("Game over", time);
-    });
+    }, N, M);
 
     const togglePause = () => {
       const isRunning = game.togglePause();

@@ -15,24 +15,27 @@ const generateState = (n, m) => createArray(() => false) (n * m);
 const generateTimersList = (n, m) => createArray(() => null) (n * m);
 
 
-const N = 2;
-const M = 2;
+
 
 const width = 150;
 const height = 200;
 
-const images = [
-  "images/1.jpg",
+// const images = [
+//   "images/1.jpg",
+//   "images/2.jpg",
+//   "images/1.jpg",
+  
+// ];
 
-];
 
-
-const createGame = (gameDiv, timerDiv, gameOverCallback) => {
-    
+const createGame = (gameDiv, timerDiv, gameOverCallback, n, m) => {
+  const N = n;
+  const M = m;
   const values = generateValues(N, M);
   const state =  generateState(N, M);;
   const timers = generateTimersList(N, M);
-
+  
+  const highscore = 0;
   let gameTimer = null;
   let startTime = 0;
   let pauseTime = 0;
@@ -67,13 +70,13 @@ const createGame = (gameDiv, timerDiv, gameOverCallback) => {
     cardDiv.classList.remove("card_closed");
     pair.push(cardDiv);
   }
-
+  
   const closeCard = (cardDiv) => {
     cardDiv.classList.add("card_closed");
     cardDiv.classList.remove("card_open");
     // pair.splice(pair.indexOf(cardDiv), 1);
   }
-
+  
   const extractCardIndex = (cardDiv) => parseInt(cardDiv.dataset.index);
 
   const handleClick = (event) => {
@@ -136,6 +139,8 @@ const createGame = (gameDiv, timerDiv, gameOverCallback) => {
         });
 
         pair = [];
+        highscore++;
+        console.log(highscore)
       }
 
     }

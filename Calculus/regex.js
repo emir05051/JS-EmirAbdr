@@ -60,49 +60,99 @@ window.addEventListener("load", () => {
 
   let input = form.elements["calc"]
   let div = document.getElementById("final");
+  let button = document.getElementById("confirm")
 
-  form.addEventListener("submit", e => {
-    e.preventDefault();
 
     // div.innerHTML = input.value;
     value = input.value;
     operation = value.match(reOperation);
     numbers = value.match(reNumber);
+
     console.log(operation)
     console.log(numbers)
+
+  function stringToArray(s) {
+      return [...s];
+  }
+  
+  function calculate(calc) {
+      // --- Perform a calculation expressed as an array of operators and numbers
+      var ops = [
+                {
+                '^': (a, b) => Math.pow(a, b)
+                },
+                 {
+                   '*': (a, b) => a * b, 
+                 '/': (a, b) => a / b
+                  },
+                 {
+                   '+': (a, b) => a + b, '-': (a, b) => a - b
+                  }
+                ],
+          newCalc = [],
+          currentOp;
+      for (var i = 0; i < ops.length; i++) {
+          for (var j = 0; j < calc.length; j++) {
+              if (ops[i][calc[j]]) {
+                  currentOp = ops[i][calc[j]];
+              } else if (currentOp) {
+                  newCalc[newCalc.length - 1] = 
+                      currentOp(newCalc[newCalc.length - 1], calc[j]);
+                  currentOp = null;
+              } else {
+                  newCalc.push(calc[j]);
+              }
+              console.log(newCalc);
+          }
+          calc = newCalc;
+          newCalc = [];
+      }
+      if (calc.length > 1) {
+          console.log('Error: unable to resolve calculation');
+          return calc;
+      } else {
+          return calc[0];
+      }
+  }
+
+  
+  
+  button.addEventListener('click', function() {
+    div.innerHTML = calculate(stringToArray(value));
+  });
+
+    // if(value.search(reLog) != -1){
+    //   let s = value;
+
+    //   logx = s.replace(reLog, '$1')
+    //   logy = s.replace(reLog, '$2')
+    //   logxy = getLog(logx,logy);
+    //   value.replace(reLog, logxy)
+    // }
+
+    // console.log(value)
     
-    if(value.search(reLog) != -1){
-      let s = value;
+    // for(let i = 0; i < numbers.length; ++i){
+    //     if(operation[i] == "+"){
 
-      logx = s.replace(reLog, '$1')
-      logy = s.replace(reLog, '$2')
-      logxy = getLog(logx,logy);
-      value.replace(reLog, logxy)
-    }
+    //       sum = parseFloat(numbers[i]) + parseFloat(numbers[i + 1])
+    //       console.log(sum)
+    //       return 0;
+    //     }
+    //     if(operation[i] == "-"){
+    //       sum = parseFloat(numbers[i]) - parseFloat(numbers[i + 1])
+    //       console.log(sum)
+    //     }
+    //     if(operation[i] == "/"){
+    //       sum = parseFloat(numbers[i]) / parseFloat(numbers[i + 1])
+    //       console.log(sum)
+    //     }
+    //     if(operation[i] == "*"){
+    //       sum = parseFloat(numbers[i]) * parseFloat(numbers[i + 1])
+    //       console.log(sum)
+    //     }
 
-    console.log(value)
-    
-    for(let i = 0; i < numbers.length; ++i){
-        if(operation[i] == "+"){
-
-          sum = parseFloat(numbers[i]) + parseFloat(numbers[i + 1])
-          console.log(sum)
-          return 0;
-        }
-        if(operation[i] == "-"){
-          sum = parseFloat(numbers[i]) - parseFloat(numbers[i + 1])
-          console.log(sum)
-        }
-        if(operation[i] == "/"){
-          sum = parseFloat(numbers[i]) / parseFloat(numbers[i + 1])
-          console.log(sum)
-        }
-        if(operation[i] == "*"){
-          sum = parseFloat(numbers[i]) * parseFloat(numbers[i + 1])
-          console.log(sum)
-        }
-
-    }
+    // }
 
 
 
@@ -115,5 +165,4 @@ window.addEventListener("load", () => {
     // const first = getFirstNumber (operation, numbers);
     // console.log(first);
     
-})
 })
