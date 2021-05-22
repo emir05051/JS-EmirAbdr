@@ -76,7 +76,6 @@ window.addEventListener("load", () => {
   }
   
   function calculate(calc) {
-      // --- Perform a calculation expressed as an array of operators and numbers
       var ops = [
                 {
                 '^': (a, b) => Math.pow(a, b)
