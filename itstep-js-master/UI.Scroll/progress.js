@@ -22,7 +22,8 @@ window.addEventListener("load", () => {
 
   const documentHeight = document.body.offsetHeight - window.innerHeight;
 
-  const headerPositions = Array.from(document.querySelectorAll("h1")).map(element => element.offsetTop);
+  const headerPositions = Array.from(document.querySelectorAll("h1"))
+    .map(element => element.offsetTop);
 
   console.log(headerPositions);
 

@@ -4,13 +4,21 @@ window.addEventListener("load", () => {
   Array.from(form.elements).map(createField(form));
 
   const config = {
-    "name": required,
-    "about": identity
+    "name": chain(stripWS, required, minLength (3)),
+    "height": mapError (e => "Недопустимый рост!") (any(re(/^десять$/), chain(stripWS, num, range (300) (50)))),
+    "about": map (v => "О себе: " + v) (chain(stripWS, length (456) (3))),
+    "dateOfBirth": date,
+    "favorite": required,
+    "iAgree": required,
+    "resume": files(/^image\//, 2),
+    "books.title": null,
+    "books.author": null,
+
   }
 
   const showFailure = input => state => {
     console.log(state, [input]);
-    input.nextSibling.innerHTML = "Ошибка";
+    input.nextSibling.innerHTML = state.error;
   }
   const showSuccess = input => state => {
     console.log(state, [input]);
@@ -22,18 +30,52 @@ window.addEventListener("load", () => {
     const { name } = target;
 
     if (name in config) {
-      State.switch
-        (showFailure(target))
+      let { value } = target;
+      switch (target.type) {
+        case "checkbox":  {
+          value = target.checked; 
+        } break;
+        
+        case "file":  {
+          value = Array.from(target.files); 
+          console.log(value); 
+        } break;
+      } 
+
+
+      Result.switch
+        (state => (state.level >= Failure.LEVEL_INPUT) && showFailure(target) (state))
         (showSuccess(target))
-        (validate (config[name]) (target.value));
+        (validate (config[name]) (value));
     }
   });
 
+  // Потеря фокуса
+  form.addEventListener("focusout", ev => {
+    const { target } = ev; 
+    const { name } = target;
 
 
+    if (name in config) {
+      let { value } = target;
+      switch (target.type) {
+        case "checkbox":  {
+          value = target.checked; 
+        } break;
+        
+        case "file":  {
+          value = Array.from(target.files); 
+        } break;
+      } 
 
-  form.addEventListener("change", ev => {
-    console.log(ev);
+      Result.switch
+        (showFailure(target))
+        (state => {
+          showSuccess(target)
+          target.type !== "file" && (target.value = state.serialized);
+        })
+        (validate (config[name]) (value));
+    }
   });
 
   form.addEventListener("submit", ev => {
