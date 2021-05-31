@@ -1,31 +1,31 @@
 console.log("asdf");
 
 class Controller {
-  
-  model;
-  view;
 
-  constructor (model, view) {
-    this.model = model;
-    this.view = view;
-    this.view.setController(this);
+    model;
+    view;
 
-    window.addEventListener("load", this.render);
-  }
+    constructor(model, view) {
+        this.model = model;
+        this.view = view;
+        this.view.setController(this);
 
-  render = async () =>  {
-    const list = await this.model.list();
-    this.view.render(list);
-  }
+        window.addEventListener("load", this.render);
+    }
 
-  toggle = async item => {
-    await this.model.toggle(item);
-    this.render();
-  }
+    render = async() => {
+        const list = await this.model.list();
+        this.view.render(list);
+    }
 
-  delete = async item => {
-    await this.model.delete(item);
-    this.render();
-  }
+    toggle = async item => {
+        await this.model.toggle(item);
+        this.render();
+    }
+
+    delete = async item => {
+        await this.model.delete(item);
+        this.render();
+    }
 
 }
