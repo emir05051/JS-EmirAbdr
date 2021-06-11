@@ -23,25 +23,12 @@ html {
   color: #fff;
 }
 .form {
-  display: flex;
-  flex-direction: row;
   width: 100%;
   padding: 20px 0 20px 0;
-}
-.search {
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: row;
-}
-.flex {
-  display: flex;
-  flex-direction: column;
 }
 .element {
   padding: 20px;
   border: none;
-  max-height: 16px;
 }
 .element:focus {
   outline: none;
@@ -49,7 +36,6 @@ html {
 }
 .destination_from {
   border-radius: 10px 0 0 10px;
-  /* position: relative; */
 }
 .time_from {
   border-radius: 0px 10px 10px 0px;
@@ -62,21 +48,4 @@ html {
   background-color: #ff6f32;
   color: #fff;
   font-size: 15px;
-  max-height: 56px;
-}
-#cities {
-  /* position: absolute; */
-  /* left: 60px; */
-  background-color: white;
-  max-height: 93px;
-  overflow: hidden;
-  border-radius: 5px;
-}
-#cities2 {
-  /* position: absolute; */
-  /* left: 250px; */
-  background-color: white;
-  max-height: 93px;
-  overflow: hidden;
-  border-radius: 5px;
 }

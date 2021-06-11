@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="lib/lists.js"></script>
+    <script src="lib/dom.js"></script>
+    <script src="indexedDb.js"></script>
+    <script src="mock.js"></script>
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+            <h1>Поиск дешёвых авиабилетов</h1>
+        </div>
+        <div class="form">
+            <form name="search">
+                <input type="text" placeholder="Откуда" class="element destination_from" name="search_from">
+                <input type="text" placeholder="Куда" class="element destination_to" name="search_to">
+                <input type="text" placeholder="Когда" class="element time_to">
+                <input type="text" placeholder="Обратно" class="element time_from">
+                <button type="submit" class="button" name="btnSubmit">Найти билеты</button>
+            </form>
+            <div id="cities"></div>
+        </div>
+    </div>
+</body>
+
+</html>
