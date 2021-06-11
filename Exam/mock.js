@@ -1001,12 +1001,12 @@ const Cities = [
   "Neya",
 ];
 
-const mockName = (i) => Cities[randomInt(0, Cities.length)];
-
 const mockCity = (i) => {
-  const name = mockName(i);
 
+  const name = Cities[i];
+  
   return new City(name);
+
 };
 
 const mockCities = createArray(mockCity);

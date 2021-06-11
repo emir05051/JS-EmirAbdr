@@ -2,32 +2,44 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="lib/lists.js"></script>
-    <script src="lib/dom.js"></script>
-    <script src="schema.js"></script>
-    <script src="mock.js"></script>
-    <script src="main.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css.css">
+  <script src="lists.js"></script>
+  <script src="dom.js"></script>
+  <script src="schema.js"></script>
+  <script src="mock.js"></script>
+  <script src="main.js"></script>
+  <script src="validaton.js"></script>
 </head>
 
 <body>
-    <form name="search">
-        <input type="text" name="query" />
-    </form>
-
-    <!-- 
-  <form name="contact">
-    <input type="text" name="name"/> 
-    <input type="text" name="phone"/> 
-    <input type="text" name="email"/> 
-  </form> -->
-
-    <div id="contacts">
+  <div class="main">
+    <div class="header">
+      <h1>Поиск дешёвых авиабилетов</h1>
+    </div>
+    <div class="form">
+      <form name="search" class="search">
+        <div class="flex">
+          <input type="text" placeholder="Откуда" class="element destination_from" name="query" autocomplete="off"
+            required />
+          <select id="cities" size="5"></select>
+        </div>
+        <div class="flex">
+          <input type="text" placeholder="Куда" class="element destination_to" name="query2" autocomplete="off"
+            required />
+          <select id="cities2" size="5"></select>
+        </div>
+        <input type="text" placeholder="Когда" id="datepicker" class="element time_to" autocomplete="off" required />
+        <input type="text" placeholder="Обратно" class="element time_from" autocomplete="off" required />
+        <button type="submit" class="button" name="btnSubmit">Найти билеты</button>
+      </form>
 
     </div>
+
+  </div>
 
 </body>
 
