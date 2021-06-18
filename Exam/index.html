@@ -5,13 +5,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Avia</title>
   <link rel="stylesheet" href="css.css">
   <script src="lists.js"></script>
   <script src="dom.js"></script>
   <script src="schema.js"></script>
   <script src="mock.js"></script>
   <script src="main.js"></script>
+  <script src="datepicker.js"></script>
   <script src="validaton.js"></script>
 </head>
 
@@ -27,13 +28,34 @@
             required />
           <select id="cities" size="5"></select>
         </div>
-        <div class="flex">
+        <div class="flex" id="drop_out_2">
           <input type="text" placeholder="Куда" class="element destination_to" name="query2" autocomplete="off"
             required />
           <select id="cities2" size="5"></select>
         </div>
-        <input type="text" placeholder="Когда" id="datepicker" class="element time_to" autocomplete="off" required />
-        <input type="text" placeholder="Обратно" class="element time_from" autocomplete="off" required />
+        <div id="drop_out_1">
+          <input type="text" placeholder="Когда" id="date_to" class="element time_to" autocomplete="off" required />
+          <div id="date-picker">
+            <div id="bar">
+              <div class="arrow-left">&#8592;</div>
+              <div class="datenow">
+                <div id="day"></div>
+                <div id="month"></div>
+                <div id="year"></div>
+              </div>
+              <div class="arrow-right">&#8594;</div>
+            </div>
+            <div class="grid">
+              <div id="days"></div>
+              <div id="dates"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <input type="text" placeholder="Обратно" id="date_out" class="element time_from" autocomplete="off"
+            required />
+
+        </div>
         <button type="submit" class="button" name="btnSubmit">Найти билеты</button>
       </form>
 

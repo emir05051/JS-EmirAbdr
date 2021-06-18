@@ -10,7 +10,22 @@ window.addEventListener("load", () => {
   const year = document.getElementById("year");
   const arrowRight = document.querySelector(".arrow-right");
   const arrowLeft = document.querySelector(".arrow-left");
+
   days_of_the_week = ["Пн", "Вт", "Ср", "Чт", "Пт", "Cб", "Вс"];
+  months = [
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
+  ];
 
   day.innerHTML = currentDate;
   month.innerHTML = currentMonth;
@@ -27,13 +42,12 @@ window.addEventListener("load", () => {
       )
     );
   }
-
   makeCalendar(date);
   changeDate(dates);
-
   arrowLeft.addEventListener("click", () => {
     currentMonth--;
-    date = new Date(date - oneDay * 30);
+    date = new Date(date - oneMonth);
+    // console.log(date);
     deleteAllElements(dates);
     makeCalendar(date);
     changeDate(dates);
@@ -59,7 +73,7 @@ window.addEventListener("load", () => {
     month.innerHTML = currentMonth;
     year.innerHTML = currentYear;
   });
-  // Смена месяца
+  // console.log([]);
   month.addEventListener("click", (e) => {
     let previous = month.innerHTML;
     if (month.children.length == 0) {
@@ -108,7 +122,7 @@ window.addEventListener("load", () => {
       });
     }
   });
-  // Смена YEAR
+  //
   year.addEventListener("click", (e) => {
     let previous = year.innerHTML;
     if (year.children.length == 0) {
@@ -162,15 +176,22 @@ const deleteAllElements = (div) => {
     div.removeChild(div.firstChild);
   }
 };
+const complete = (date, dates) => {
+  deleteAllElements(dates);
+  makeCalendar(date);
+  changeDate(dates);
+};
 const makeCalendar = (date) => {
   firstDay = getFirstDayOfMonth(date).toString();
   firstDayOfWeek = firstDay.split(" ")[0];
-
+  console.log(firstDay);
+  console.log(firstDayOfWeek);
   dayOfWeek = firstDayOfWeekNumber(firstDayOfWeek);
 
   lastDay = getLastDayOfMonth(date).toString();
   lastDayNumber = lastDay.split(" ")[2];
 
+  console.log(lastDayNumber);
   for (let index = 1; index <= lastDayNumber; index++) {
     dates.append($("div", {}, index));
   }
@@ -204,7 +225,6 @@ const firstDayOfWeekNumber = (firstDayOfWeek) => {
   }
   return dayOfWeek;
 };
-
 const changeDate = (dates) => {
   Array.from(dates.children).forEach((element) => {
     let k = 0;
@@ -216,48 +236,34 @@ const changeDate = (dates) => {
         Array.from(dates.children).forEach((element) => {
           element.style.backgroundColor = "white";
         });
-        element.style.backgroundColor = "cyan";
+        element.style.backgroundColor = "blue";
       }
-
-      var dateValue =
-        year.innerHTML + "-" + month.innerHTML + "-" + day.innerHTML;
-      console.log(new Date(dateValue));
     });
   });
 };
+const dateClone = (d) => new Date(d.getTime());
 
 const addDays = (d, n) => {
   const date = dateClone(d);
   date.setDate(date.getDate() + n);
   return date;
 };
-const complete = (date, dates) => {
-  deleteAllElements(dates);
-  makeCalendar(date);
-  changeDate(dates);
-};
+
 const onlyDate = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+const getToday = () => onlyDate(new Date());
 
 const getFirstDayOfMonth = (d) => new Date(d.getFullYear(), d.getMonth(), 1);
 
 const getLastDayOfMonth = (d) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
 
+const getDaysInMonth = (d) => getLastDayOfMonth(d).getDate();
+
+const getDaysInYear = (d) => 337 + getDaysInMonth(new Date(d.getFullYear(), 1));
+
+const getWeekDay = (d) => (6 + d.getDay()) % 7;
+
 const getFirstDayOfWeek = (d) => addDays(d, -getWeekDay(d));
 
 const oneDay = 24 * 60 * 60 * 1000;
 const oneMonth = oneDay * 30;
-const oneYear = oneMonth * 12;
-const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];

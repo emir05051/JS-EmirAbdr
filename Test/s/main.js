@@ -12,6 +12,14 @@ const prev_mth_element = document.querySelector(
 );
 const days_element = document.querySelector(".date-picker .dates .days");
 
+console.log(date_picker_element);
+console.log(selected_date_element);
+console.log(dates_element);
+console.log(mth_element);
+console.log(next_mth_element);
+console.log(prev_mth_element);
+console.log(days_element);
+
 const months = [
   "January",
   "February",

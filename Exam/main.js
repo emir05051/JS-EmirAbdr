@@ -1,29 +1,55 @@
 window.addEventListener("load", async () => {
+  // const datePicker = DatePicker.say();
+
   const db = await DbContext.open();
   await db.seed(mockCity);
-
+  // Формы и селекты
   const form = document.forms["search"];
   const input = document.forms["search"].elements["query"];
   const input2 = document.forms["search"].elements["query2"];
-
+  const selectCity = document.getElementById("cities");
+  const selectCity2 = document.getElementById("cities2");
+  // Render
   const renderCities = _renderCities(document.getElementById("cities"));
   const renderCities2 = _renderCities(document.getElementById("cities2"));
-
+  // Поиск
   const search = _search(db);
   const handleInput = _handleInput(search, renderCities);
   const handleInput2 = _handleInput(search, renderCities2);
+  // Datepicker
+  const datePicker = document.getElementById("date-picker");
+  const dropout = document.getElementById("drop_out_1");
+  const dateTo = document.getElementById("date_to");
+  const dateFrom = document.getElementById("date_out");
 
-  const selectCity = document.getElementById("cities");
-  const selectCity2 = document.getElementById("cities2");
+  // Основной code
+  datePicker.style.display = "none";
 
   if (selectCity.children[0] === undefined) {
     selectCity.style.opacity = 0;
     selectCity2.style.opacity = 0;
   }
+
   input2.addEventListener("focus", () => {
     selectCity.style.opacity = 0;
     selectCity2.style.opacity = 255;
+
+    input2.value = document.cookie;
+
+    window.addEventListener("popstate", () => {
+      console.log(window.location.search);
+      handleLocation(handleInput2, input2);
+    });
+
+    input2.addEventListener("input", async (e) => {
+      const query2 = sanitizeQuery(input2.value);
+      console.log(query2);
+      updateCookie(query2);
+      console.log(document.cookie);
+      await handleInput2(query2);
+    });
   });
+
   input.addEventListener("focus", () => {
     handleLocation(handleInput, input);
     selectCity.style.opacity = 255;
@@ -40,37 +66,6 @@ window.addEventListener("load", async () => {
       const query = sanitizeQuery(input.value);
       updateHistory(query);
       await handleInput(query);
-    });
-
-    input2.addEventListener("input", async (e) => {
-      const query = sanitizeQuery(input2.value);
-      updateHistory2(query);
-      await handleInput2(query);
-    });
-
-    console.log(db);
-  });
-  input.addEventListener("focus", () => {
-    handleLocation(handleInput, input);
-    selectCity.style.opacity = 255;
-    // console.log(window.encodeURIComponent(input.value));
-
-    window.addEventListener("popstate", () => {
-      console.log(window.location.search);
-      handleLocation(handleInput, input);
-      handleLocation(handleInput2, input2);
-    });
-
-    input.addEventListener("input", async (e) => {
-      const query = sanitizeQuery(input.value);
-      updateHistory(query);
-      await handleInput(query);
-    });
-
-    input2.addEventListener("input", async (e) => {
-      const query = sanitizeQuery(input2.value);
-      updateHistory2(query);
-      await handleInput2(query);
     });
 
     console.log(db);
@@ -88,24 +83,32 @@ window.addEventListener("load", async () => {
       e.keyCode == 9
     ) {
       selectCity2.focus();
-      selectCity2.addEventListener("keydown", (e) => {
-        console.log(e);
-        if (e.keyCode == 40) {
-          i <= selectCity2.length - 1 ? i++ : (i = i);
-          console.log(i);
-        }
-        if (e.keyCode == 38) {
-          i > 1 ? i-- : (i = i);
-          console.log(i);
-        }
+      selectCity2.addEventListener("change", (e) => {
         if (e.keyCode == 27) {
           input2.focus();
         }
-        if (e.keyCode == 13) {
-          console.log([selectCity2]);
-          input2.value = selectCity2.children[i - 1].innerHTML;
-        }
+        input2.value = e.target.value;
+        document.cookie = input2.value;
       });
+      // selectCity2.addEventListener("keydown", (e) => {
+      //   console.log(e);
+      //   if (e.keyCode == 40) {
+      //     i <= selectCity2.length - 1 ? i++ : (i = i);
+      //     console.log(i);
+      //   }
+      //   if (e.keyCode == 38) {
+      //     i > 1 ? i-- : (i = i);
+      //     console.log(i);
+      //   }
+      //   if (e.keyCode == 27) {
+      //     input2.focus();
+      //   }
+      //   if (e.keyCode == 13) {
+      //     console.log([selectCity2]);
+      //     input2.value = selectCity2.children[i - 1].innerHTML;
+      //     document.cookie = input2.value;
+      //   }
+      // });
     }
   });
 
@@ -119,25 +122,27 @@ window.addEventListener("load", async () => {
   });
 
   //
-  //
-  //
-
+  // DATEPCIKER
   //
 
-  //
+  dateTo.addEventListener("focus", () => {
+    selectCity.style.opacity = 0;
+    selectCity2.style.opacity = 0;
+    datePicker.style.display = "flex";
+  });
 });
 const sanitizeQuery = (query) => query.trim();
 
 const updateHistory = (query) => {
-  window.document.title = "Вы хотите найти" + query;
   window.history.pushState(
     null,
     "Поиск: " + query,
     "?query=" + window.encodeURIComponent(query)
   );
 };
-const updateHistory2 = (query) => {
-  window.history.pushState(null, "?query2=" + window.encodeURIComponent(query));
+
+const updateCookie = (query) => {
+  document.cookie = query;
 };
 
 const _handleInput = (search, renderCities) => async (query) => {
@@ -189,14 +194,6 @@ const handleLocation = (handleInput, input) => {
     handleInput(query);
   }
 };
-const handleLocation2 = (handleInput, input) => {
-  const query = getHrefQuery()["query2"];
-
-  if (query) {
-    input.value = query;
-    handleInput(query);
-  }
-};
 
 const getHrefQuery = () => {
   const queryString = window.location.search.slice(1);
@@ -236,24 +233,13 @@ const list = (input, e, selectCity) => {
     e.keyCode == 9
   ) {
     selectCity.focus();
-    selectCity.addEventListener("keydown", (e) => {
-      console.log(e);
-      if (e.keyCode == 40) {
-        i <= selectCity.length - 1 ? i++ : (i = i);
-        console.log(i);
-      }
-      if (e.keyCode == 38) {
-        i > 1 ? i-- : (i = i);
-        console.log(i);
-      }
+    selectCity.addEventListener("change", (e) => {
       if (e.keyCode == 27) {
         input.focus();
       }
-      if (e.keyCode == 13) {
-        console.log([selectCity]);
-        input.value = selectCity.children[i - 1].innerHTML;
-        updateHistory(input.value);
-      }
+
+      input.value = e.target.value;
+      updateHistory(input.value);
     });
   }
 };

@@ -6,6 +6,7 @@
 body,
 html {
   height: 100%;
+  overflow: hidden;
 }
 .main {
   display: flex;
@@ -15,6 +16,7 @@ html {
   align-items: center;
   justify-content: center;
   background-color: #0c73fe;
+  min-width: 950px;
 }
 .header {
   width: 100%;
@@ -27,6 +29,7 @@ html {
   flex-direction: row;
   width: 100%;
   padding: 20px 0 20px 0;
+  min-width: 950px;
 }
 .search {
   width: 100%;
@@ -63,6 +66,7 @@ html {
   color: #fff;
   font-size: 15px;
   max-height: 56px;
+  min-width: 138.2px;
 }
 #cities {
   /* position: absolute; */
@@ -80,3 +84,55 @@ html {
   overflow: hidden;
   border-radius: 5px;
 }
+/* datepicker */
+#date-picker {
+  display: flex;
+  flex-direction: column;
+}
+
+#bar {
+  display: flex;
+}
+#bar div {
+  margin: 0 20px 0 20px;
+}
+.datenow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 0 !important;
+}
+.datenow div:hover {
+  background-color: sandybrown !important;
+  cursor: pointer;
+}
+#bar div:first-child:hover,
+#bar div:last-child:hover {
+  cursor: pointer;
+  background-color: tomato;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 100px;
+  width: 100%;
+  align-self: center;
+}
+#days,
+#dates {
+  display: grid;
+  text-align: center;
+  grid-template-columns: repeat(7, 30px);
+  width: 100%;
+  grid-gap: 15px;
+}
+#drop_out_1 {
+  color: rgb(0, 0, 0);
+}
+#dates div:hover {
+  cursor: pointer;
+  background-color: wheat;
+}
+/* #dates div:first-child {
+  grid-column: 2;
+} */
