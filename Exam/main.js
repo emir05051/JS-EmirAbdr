@@ -1,6 +1,4 @@
 window.addEventListener("load", async () => {
-  // const datePicker = DatePicker.say();
-
   const db = await DbContext.open();
   await db.seed(mockCity);
   // Формы и селекты
@@ -71,8 +69,26 @@ window.addEventListener("load", async () => {
     console.log(db);
   });
   input.addEventListener("keydown", (e) => {
-    list(input, e, selectCity);
+    if (
+      e.keyCode == 38 ||
+      e.keyCode == 40 ||
+      e.keyCode == 17 ||
+      e.keyCode == 18 ||
+      e.keyCode == 9
+    ) {
+      selectCity.focus();
+    }
   });
+  selectCity.addEventListener("change", (e) => {
+    console.log(e);
+    if (e.keyCode == 27) {
+      input.focus();
+    }
+
+    input.value = e.target.value;
+    updateHistory(input.value);
+  });
+
   input2.addEventListener("keydown", (e) => {
     let i = 0;
     if (
@@ -83,13 +99,7 @@ window.addEventListener("load", async () => {
       e.keyCode == 9
     ) {
       selectCity2.focus();
-      selectCity2.addEventListener("change", (e) => {
-        if (e.keyCode == 27) {
-          input2.focus();
-        }
-        input2.value = e.target.value;
-        document.cookie = input2.value;
-      });
+
       // selectCity2.addEventListener("keydown", (e) => {
       //   console.log(e);
       //   if (e.keyCode == 40) {
@@ -111,7 +121,14 @@ window.addEventListener("load", async () => {
       // });
     }
   });
-
+  selectCity2.addEventListener("change", (e) => {
+    console.log(e);
+    if (e.keyCode == 27) {
+      input2.focus();
+    }
+    input2.value = e.target.value;
+    document.cookie = input2.value;
+  });
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (areEqual(input.value, input2.value)) {
@@ -221,25 +238,4 @@ const getHrefQuery = () => {
         return [key, value];
       })
   );
-};
-
-const list = (input, e, selectCity) => {
-  let i = 0;
-  if (
-    e.keyCode == 38 ||
-    e.keyCode == 40 ||
-    e.keyCode == 17 ||
-    e.keyCode == 18 ||
-    e.keyCode == 9
-  ) {
-    selectCity.focus();
-    selectCity.addEventListener("change", (e) => {
-      if (e.keyCode == 27) {
-        input.focus();
-      }
-
-      input.value = e.target.value;
-      updateHistory(input.value);
-    });
-  }
 };

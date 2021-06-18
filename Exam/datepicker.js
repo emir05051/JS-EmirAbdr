@@ -10,6 +10,8 @@ window.addEventListener("load", () => {
   const year = document.getElementById("year");
   const arrowRight = document.querySelector(".arrow-right");
   const arrowLeft = document.querySelector(".arrow-left");
+  const dateTo = document.getElementById("date_to");
+  // const dateTo = document.getElementById("date_to");
   days_of_the_week = ["Пн", "Вт", "Ср", "Чт", "Пт", "Cб", "Вс"];
 
   day.innerHTML = currentDate;
@@ -29,14 +31,14 @@ window.addEventListener("load", () => {
   }
 
   makeCalendar(date);
-  changeDate(dates);
+  changeDate(dates, dateTo);
 
   arrowLeft.addEventListener("click", () => {
     currentMonth--;
     date = new Date(date - oneDay * 30);
     deleteAllElements(dates);
     makeCalendar(date);
-    changeDate(dates);
+    changeDate(dates, dateTo);
     if (currentMonth == 0) {
       currentMonth = 12;
       currentYear--;
@@ -51,7 +53,7 @@ window.addEventListener("load", () => {
     console.log(date);
     deleteAllElements(dates);
     makeCalendar(date);
-    changeDate(dates);
+    changeDate(dates, dateTo);
     if (currentMonth == 13) {
       currentMonth = 1;
       currentYear++;
@@ -90,7 +92,7 @@ window.addEventListener("load", () => {
           console.log(parseInt(e.target.value) - parseInt(previous));
 
           console.log(date);
-          complete(date, dates);
+          complete(date, dates, dateTo);
         }
         if (e.target.value < previous) {
           date = new Date(
@@ -100,7 +102,7 @@ window.addEventListener("load", () => {
           console.log(e.target.value - previous);
           console.log();
           console.log(date);
-          complete(date, dates);
+          complete(date, dates, dateTo);
         }
         deleteAllElements(month);
         month.innerHTML = e.target.value;
@@ -136,7 +138,7 @@ window.addEventListener("load", () => {
             D.getFullYear() + (parseInt(e.target.value) - parseInt(previous))
           );
 
-          complete(date, dates);
+          complete(date, dates, dateTo);
         }
         if (e.target.value < previous) {
           let D = date;
@@ -145,7 +147,7 @@ window.addEventListener("load", () => {
               D.getFullYear() - (parseInt(e.target.value) + parseInt(previous))
             )
           );
-          complete(date, dates);
+          complete(date, dates, dateTo);
         }
 
         deleteAllElements(year);
@@ -205,7 +207,7 @@ const firstDayOfWeekNumber = (firstDayOfWeek) => {
   return dayOfWeek;
 };
 
-const changeDate = (dates) => {
+const changeDate = (dates, input) => {
   Array.from(dates.children).forEach((element) => {
     let k = 0;
     element.addEventListener("click", (event) => {
@@ -219,9 +221,10 @@ const changeDate = (dates) => {
         element.style.backgroundColor = "cyan";
       }
 
-      var dateValue =
+      let dateValue =
         year.innerHTML + "-" + month.innerHTML + "-" + day.innerHTML;
       console.log(new Date(dateValue));
+      input.value = dateValue;
     });
   });
 };
@@ -231,10 +234,10 @@ const addDays = (d, n) => {
   date.setDate(date.getDate() + n);
   return date;
 };
-const complete = (date, dates) => {
+const complete = (date, dates, input) => {
   deleteAllElements(dates);
   makeCalendar(date);
-  changeDate(dates);
+  changeDate(dates, input);
 };
 const onlyDate = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
