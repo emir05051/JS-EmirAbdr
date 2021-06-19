@@ -37,8 +37,9 @@ window.addEventListener("load", () => {
     );
   }
 
-  makeCalendar(date);
-  changeDate(dates, dateTo);
+  makeCalendar(date, dates);
+  changeDate(dates, dateTo, year, month, day);
+
   DatePickerLogic(
     arrowLeft,
     arrowRight,
@@ -71,7 +72,7 @@ const deleteAllElements = (div) => {
   }
 };
 
-const makeCalendar = (date) => {
+const makeCalendar = (date, dates) => {
   firstDay = getFirstDayOfMonth(date).toString();
   firstDayOfWeek = firstDay.split(" ")[0];
 
@@ -133,7 +134,7 @@ const createField = (form) => (input) => {
   );
 };
 
-const changeDate = (dates, input) => {
+const changeDate = (dates, input, year, month, day) => {
   Array.from(dates.children).forEach((element) => {
     let k = 0;
     element.addEventListener("click", (event) => {
@@ -146,9 +147,9 @@ const changeDate = (dates, input) => {
         });
         element.style.backgroundColor = "cyan";
       }
-
       let dateValue =
         year.innerHTML + "-" + month.innerHTML + "-" + day.innerHTML;
+      console.log(dateValue);
       console.log(new Date(dateValue));
       input.value = dateValue;
     });
@@ -160,10 +161,10 @@ const addDays = (d, n) => {
   date.setDate(date.getDate() + n);
   return date;
 };
-const complete = (date, dates, input) => {
+const complete = (date, dates, input, year, month, day) => {
   deleteAllElements(dates);
-  makeCalendar(date);
-  changeDate(dates, input);
+  makeCalendar(date, dates);
+  changeDate(dates, input, year, month, day);
 };
 const onlyDate = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
@@ -208,7 +209,8 @@ const DatePickerLogic = (
 ) => {
   arrowLeft.addEventListener("click", () => {
     date = new Date(date - oneMonth);
-    complete(date, dates, dateTo);
+    console.log(date);
+    complete(date, dates, dateTo, year, month, day);
     currentMonth--;
     if (currentMonth == 0) {
       currentMonth = 12;
@@ -220,7 +222,8 @@ const DatePickerLogic = (
 
   arrowRight.addEventListener("click", () => {
     date = new Date(Date.parse(date) + oneMonth);
-    complete(date, dates, dateTo);
+    console.log(date);
+    complete(date, dates, dateTo, year, month, day);
     currentMonth++;
     if (currentMonth == 13) {
       currentMonth = 1;
@@ -254,14 +257,14 @@ const DatePickerLogic = (
               (parseInt(e.target.value) - parseInt(previous)) * oneMonth
           );
 
-          complete(date, dates, dateTo);
+          complete(date, dates, dateTo, year, month, day);
         }
         if (e.target.value < previous) {
           date = new Date(
             date - (parseInt(previous) - parseInt(e.target.value)) * oneMonth
           );
 
-          complete(date, dates, dateTo);
+          complete(date, dates, dateTo, year, month, day);
         }
         deleteAllElements(month);
         month.innerHTML = e.target.value;
@@ -296,7 +299,7 @@ const DatePickerLogic = (
             D.getFullYear() + (parseInt(e.target.value) - parseInt(previous))
           );
 
-          complete(date, dates, dateTo);
+          complete(date, dates, dateTo, year, month, day);
         }
         if (e.target.value < previous) {
           let D = date;
@@ -305,9 +308,9 @@ const DatePickerLogic = (
               D.getFullYear() - (parseInt(e.target.value) + parseInt(previous))
             )
           );
-          complete(date, dates, dateTo);
+          complete(date, dates, dateTo, year, month, day);
         }
-
+        console.log(date);
         deleteAllElements(year);
         year.innerHTML = e.target.value;
         currentYear = e.target.value;
