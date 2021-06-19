@@ -8,6 +8,7 @@ window.addEventListener("load", async () => {
   const selectCity = document.getElementById("cities");
   const selectCity2 = document.getElementById("cities2");
   const reset = document.querySelector(".header");
+  const result = document.querySelector(".result");
   // Render
   const renderCities = _renderCities(document.getElementById("cities"));
   const renderCities2 = _renderCities(document.getElementById("cities2"));
@@ -17,23 +18,30 @@ window.addEventListener("load", async () => {
   const handleInput2 = _handleInput(search, renderCities2);
   // Datepicker
   const datePicker = document.getElementById("date-picker");
+  const datePicker2 = document.getElementById("date-picker_2");
   const dropout = document.getElementById("dropout");
   const dateTo = document.getElementById("date_to");
   const dateFrom = document.getElementById("date_out");
 
   // Основной code
   datePicker.style.display = "none";
-
+  datePicker2.style.display = "none";
   if (selectCity.children[0] === undefined) {
     selectCity.style.opacity = 0;
     selectCity2.style.opacity = 0;
     datePicker.style.display = "none";
   }
-
+  reset.addEventListener("click", () => {
+    datePicker.style.display = "none";
+    datePicker2.style.display = "none";
+    selectCity.style.opacity = 0;
+    selectCity2.style.opacity = 0;
+  });
   input2.addEventListener("focus", () => {
     selectCity.style.opacity = 0;
     selectCity2.style.opacity = 255;
     datePicker.style.display = "none";
+    datePicker2.style.display = "none";
     input2.value = document.cookie;
 
     window.addEventListener("popstate", () => {
@@ -58,8 +66,9 @@ window.addEventListener("load", async () => {
     handleLocation(handleInput, input);
     selectCity.style.opacity = 255;
     selectCity2.style.opacity = 0;
-
+    datePicker2.style.display = "none";
     datePicker.style.display = "none";
+
     // console.log(window.encodeURIComponent(input.value));
 
     window.addEventListener("popstate", () => {
@@ -146,22 +155,55 @@ window.addEventListener("load", async () => {
     selectCity.style.opacity = 0;
     selectCity2.style.opacity = 0;
     datePicker.style.display = "flex";
+    datePicker2.style.display = "none";
   });
   dateFrom.addEventListener("focus", () => {
     selectCity.style.opacity = 0;
     selectCity2.style.opacity = 0;
     datePicker.style.display = "none";
-    dropout.append(datePickerDiv);
+    datePicker2.style.display = "flex";
   });
 
   //Submit
+  let isError = false;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (areEqual(input.value, input2.value)) {
+    if (Date.parse(dateTo.value) > Date.parse(dateFrom.value)) {
+      isError = true;
+      console.log("Error");
+      reset.innerHTML = "Даты указаны неправильно";
       return false;
     }
+    if (input.value === input2.value) {
+      isError = true;
+      console.log("Error");
+      reset.innerHTML = "Места указаны неправильно";
+      return false;
+    }
+    const ticket = {
+      dateTo: dateTo.value,
+      dateFrom: dateFrom.value,
+      from: input.value,
+      to: input2.value,
+      priceTo: randomInt(100, 900),
+      priceFrom: randomInt(100, 900),
+    };
 
-    form.submit();
+    result.append(
+      $(
+        "div",
+        { classList: "tickets_from" },
+        `Tickets ${ticket.dateTo} из ${ticket.from} за ${ticket.price}$`
+      )
+    );
+    result.append(
+      $(
+        "div",
+        { classList: "tickets_to" },
+        `Tickets ${ticket.date} из ${ticket.from} за ${ticket.price}$`
+      )
+    );
+    // form.submit();
   });
 });
 const sanitizeQuery = (query) => query.trim();
@@ -255,31 +297,31 @@ const getHrefQuery = () => {
       })
   );
 };
-const datePickerDiv = $(
-  "div",
-  {
-    id: "date-picker",
-    style: {
-      display: "flex",
-    },
-  },
-  $(
-    "div",
-    { id: "bar" },
-    $("div", { classList: "arrow-left" }, "←"),
-    $(
-      "div",
-      { classList: "datenow" },
-      $("div", { id: "day" }, 19),
-      $("div", { id: "month" }, 6),
-      $("div", { id: "year" }, 2021)
-    ),
-    $("div", { classList: "arrow-right" }, "→")
-  ),
-  $(
-    "div",
-    { classList: "grid" },
-    $("div", { id: "days" }),
-    $("div", { id: "dates" })
-  )
-);
+// const datePickerDiv = $(
+//   "div",
+//   {
+//     id: "date-picker",
+//     style: {
+//       display: "flex",
+//     },
+//   },
+//   $(
+//     "div",
+//     { id: "bar" },
+//     $("div", { classList: "arrow-left" }, "←"),
+//     $(
+//       "div",
+//       { classList: "datenow" },
+//       $("div", { id: "day" }, 19),
+//       $("div", { id: "month" }, 6),
+//       $("div", { id: "year" }, 2021)
+//     ),
+//     $("div", { classList: "arrow-right" }, "→")
+//   ),
+//   $(
+//     "div",
+//     { classList: "grid" },
+//     $("div", { id: "days" }),
+//     $("div", { id: "dates" })
+//   )
+// );
