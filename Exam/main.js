@@ -185,27 +185,37 @@ window.addEventListener("load", async () => {
       dateFrom: dateFrom.value,
       from: input.value,
       to: input2.value,
-      priceTo: randomInt(100, 900),
-      priceFrom: randomInt(100, 900),
     };
+    for (let i = 0; i < 7; i++) {
+      result.append(
+        $(
+          "div",
+          { classList: "tickets" },
+          $(
+            "div",
+            { classList: "tickets_from" },
+            `Tickets ${ticket.dateTo} из ${ticket.from} за ${randomInt(
+              100,
+              999
+            )}$`
+          ),
+          $(
+            "div",
+            { classList: "tickets_to" },
+            `Tickets ${ticket.dateFrom} из ${ticket.from} за ${randomInt(
+              100,
+              999
+            )}$`
+          )
+        )
+      );
 
-    result.append(
-      $(
-        "div",
-        { classList: "tickets_from" },
-        `Tickets ${ticket.dateTo} из ${ticket.from} за ${ticket.price}$`
-      )
-    );
-    result.append(
-      $(
-        "div",
-        { classList: "tickets_to" },
-        `Tickets ${ticket.date} из ${ticket.from} за ${ticket.price}$`
-      )
-    );
-    // form.submit();
+      // ticketDiv
+      // form.submit();
+    }
   });
 });
+
 const sanitizeQuery = (query) => query.trim();
 
 const updateHistory = (query) => {

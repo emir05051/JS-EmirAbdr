@@ -151,3 +151,21 @@ html {
 /* #dates div:first-child {
   grid-column: 2;
 } */
+.result {
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+  justify-content: space-between;
+  width: 100%;
+}
+.tickets {
+  display: flex;
+}
+.tickets_from {
+  padding: 10px;
+  width: 50%;
+}
+.tickets_to {
+  padding: 10px;
+  width: 50%;
+}
