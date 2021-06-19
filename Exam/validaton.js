@@ -1,5 +1,6 @@
 const identity = (x) => x;
 
+// Sum Type
 class Result {
   input;
 
@@ -11,6 +12,7 @@ class Result {
 Result.from = (input) => new Success(input, input, input);
 
 Result.switch = (f) => (g) => (state) => {
+  console.log(state);
   switch (state.constructor) {
     case Failure:
       return f(state);
@@ -171,13 +173,13 @@ const stripWS = Result.chain((value) =>
   Success.of(value.trim(" ").replace(reMultiWs, " "))
 );
 
-const date = Result.chain((value) => {
+const dateState = Result.chain((value) => {
   if (value === "") {
     return Success.of(value);
   }
   // Добавить собственный парсер даты
   const d = new Date(value);
-
+  console.log(d);
   return isNaN(d.getTime())
     ? Failure.of(`Значение должно быть датой`)
     : Success.of(d, d.toLocaleDateString());

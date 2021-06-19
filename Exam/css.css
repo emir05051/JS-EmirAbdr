@@ -50,6 +50,9 @@ html {
   outline: none;
   box-shadow: 0 0 0 2px #ff6d00;
 }
+.errors {
+  color: rgb(255, 0, 0);
+}
 .destination_from {
   border-radius: 10px 0 0 10px;
   /* position: relative; */
@@ -85,15 +88,18 @@ html {
   border-radius: 5px;
 }
 /* datepicker */
-#date-picker {
+#date-picker,
+#date-picker_2 {
   display: flex;
   flex-direction: column;
 }
 
-#bar {
+#bar,
+#bar_2 {
   display: flex;
 }
-#bar div {
+#bar div,
+#bar_2 div {
   margin: 0 20px 0 20px;
 }
 .datenow {
@@ -107,7 +113,9 @@ html {
   cursor: pointer;
 }
 #bar div:first-child:hover,
-#bar div:last-child:hover {
+#bar div:last-child:hover,
+#bar_2 div:first-child:hover,
+#bar_2 div:last-child:hover {
   cursor: pointer;
   background-color: tomato;
 }
@@ -119,7 +127,9 @@ html {
   align-self: center;
 }
 #days,
-#dates {
+#dates,
+#days_2,
+#dates_2 {
   display: grid;
   text-align: center;
   grid-template-columns: repeat(7, 30px);
@@ -130,6 +140,11 @@ html {
   color: rgb(0, 0, 0);
 }
 #dates div:hover {
+  cursor: pointer;
+  background-color: wheat;
+}
+#dates div:hover,
+#dates_2 div:hover {
   cursor: pointer;
   background-color: wheat;
 }
